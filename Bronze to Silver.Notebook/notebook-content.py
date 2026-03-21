@@ -20,6 +20,11 @@
 # META   }
 # META }
 
+# MARKDOWN ********************
+
+# ## Extracting Data from the raw
+# data in the folder raw was extracted from Azure SQL DB
+
 # CELL ********************
 
 #Get all the files under the ADLS folder and create a list of file paths
@@ -42,7 +47,7 @@ for file_path in file_list:
 # CELL ********************
 
 df_sql = spark.sql("SELECT * FROM salesltaddress LIMIT 100")
-display(df_sql)
+#display(df_sql)
 
 # METADATA ********************
 
@@ -50,3 +55,111 @@ display(df_sql)
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# MARKDOWN ********************
+
+# ## Transforming & Normalizing Data
+
+# CELL ********************
+
+views = spark.sql("SHOW VIEWS")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# MARKDOWN ********************
+
+
+# CELL ********************
+
+df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
+#display(df_salesltsalesorderdetail)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
+#display(df_salesltsalesorderheader)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+#Randomizing the dates in the OrderDate column since our toy AdventureWorks Li dataset only has one distinct order date.
+from pyspark.sql.functions import rand, col, expr
+df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withColumn("OrderDate", expr("date_add(current_date()-1000, CAST(rand() * 365 AS INT))"))
+#display(df_salesltsalesorderheader)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_salesItcustomer = spark.sql("SELECT CustomerID, Title, FirstName, MiddleName, LastName, Suffix, CompanyName, EmailAddress, Phone FROM salesltcustomer")
+#display(df_salesitcustomer)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_salesltcustomeraddress = spark.sql("SELECT CustomerID, AddressID, AddressType FROM salesltcustomeraddress") 
+#display(df_salesltcustomeraddress)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_salesltproduct = spark.sql("SELECT ProductID, Name, ProductNumber, Color, StandardCost, ListPrice, Size, Weight, ProductCategoryID FROM salesltproduct")
+#display(df_salesltproduct)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df_salesltproductcategory = spark.sql("SELECT ProductCategoryID, ParentProductCategoryID, Name FROM salesltproductcategory")
+#displayidf salesitproductcategory)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# MARKDOWN ********************
+
+# ## Loading data for Silver layer
