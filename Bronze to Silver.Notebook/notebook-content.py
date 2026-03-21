@@ -78,6 +78,10 @@ views = spark.sql("SHOW VIEWS")
 
 df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
 #display(df_salesltsalesorderheader)
+#Randomizing the dates in the OrderDate column since our toy AdventureWorks Li dataset only has one distinct order date.
+from pyspark.sql.functions import rand, col, expr
+df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withColumn("OrderDate", expr("date_add(current_date()-1000, CAST(rand() * 365 AS INT))"))
+#display(df_salesltsalesorderheader)
 
 # METADATA ********************
 
@@ -90,20 +94,6 @@ df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, Ord
 
 df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
 #display(df_salesltsalesorderdetail)
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
-
-# CELL ********************
-
-#Randomizing the dates in the OrderDate column since our toy AdventureWorks Li dataset only has one distinct order date.
-from pyspark.sql.functions import rand, col, expr
-df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withColumn("OrderDate", expr("date_add(current_date()-1000, CAST(rand() * 365 AS INT))"))
-#display(df_salesltsalesorderheader)
 
 # METADATA ********************
 
@@ -162,7 +152,7 @@ df_salesltproductcategory = spark.sql("SELECT ProductCategoryID, ParentProductCa
 
 # MARKDOWN ********************
 
-# ## Loading data for Silver layer
+# ## Loading data for Silver layer tables
 
 # CELL ********************
 
@@ -237,7 +227,7 @@ df_salesltproduct.write.mode("overwrite").format("delta").option("overwriteschem
 
 # CELL ********************
 
-tableName="sales ProductCategory"
+tableName="salesProductCategory"
 df_salesltproductcategory.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
 
 # METADATA ********************
