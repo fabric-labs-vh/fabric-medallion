@@ -56,10 +56,6 @@ df_sql = spark.sql("SELECT * FROM salesltaddress LIMIT 100")
 # META   "language_group": "synapse_pyspark"
 # META }
 
-# MARKDOWN ********************
-
-# ## Transforming & Normalizing Data
-
 # CELL ********************
 
 views = spark.sql("SHOW VIEWS")
@@ -73,11 +69,15 @@ views = spark.sql("SHOW VIEWS")
 
 # MARKDOWN ********************
 
+# ## Transforming & Normalizing Data
+
+# MARKDOWN ********************
+
 
 # CELL ********************
 
-df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
-#display(df_salesltsalesorderdetail)
+df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
+#display(df_salesltsalesorderheader)
 
 # METADATA ********************
 
@@ -88,8 +88,8 @@ df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductI
 
 # CELL ********************
 
-df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
-#display(df_salesltsalesorderheader)
+df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
+#display(df_salesltsalesorderdetail)
 
 # METADATA ********************
 
@@ -163,3 +163,86 @@ df_salesltproductcategory = spark.sql("SELECT ProductCategoryID, ParentProductCa
 # MARKDOWN ********************
 
 # ## Loading data for Silver layer
+
+# CELL ********************
+
+path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.Lakehouse/Tables" #to load for all 
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName = "salesOrderHeader"
+df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path +"/"+ tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName="salesOrderDetail"
+df_salesltsalesorderdetail.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName="salesCustomer"
+df_salesItcustomer.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName = "salesCustomerAddress"
+df_salesltcustomeraddress.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName = "salesProduct"
+df_salesltproduct.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+tableName="sales ProductCategory"
+df_salesltproductcategory.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
