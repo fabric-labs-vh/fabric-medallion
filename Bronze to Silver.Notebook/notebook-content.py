@@ -76,12 +76,8 @@ views = spark.sql("SHOW VIEWS")
 
 # CELL ********************
 
-df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
-#display(df_salesltsalesorderheader)
-#Randomizing the dates in the OrderDate column since our toy AdventureWorks Li dataset only has one distinct order date.
-from pyspark.sql.functions import rand, col, expr
-df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withColumn("OrderDate", expr("date_add(current_date()-1000, CAST(rand() * 365 AS INT))"))
-#display(df_salesltsalesorderheader)
+df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
+#display(df_salesltsalesorderdetail)
 
 # METADATA ********************
 
@@ -92,8 +88,23 @@ df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withCo
 
 # CELL ********************
 
-df_salesltsalesorderdetail =  spark.sql("SELECT SalesOrderID, OrderQty, ProductID, UnitPrice, UnitPriceDIscount, LineTotal FROM salesltsalesorderdetail")
-#display(df_salesltsalesorderdetail)
+df_salesltsalesorderheader = spark.sql("SELECT SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag, SalesOrderNumber, PurchaseOrderNumber, AccountNumber FROM salesltsalesorderheader")
+#display(df_salesltsalesorderheader)
+#Randomizing the dates in the OrderDate column since our toy AdventureWorks Li dataset only has one distinct order date.
+
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+from pyspark.sql.functions import rand, col, expr
+df_salesltsalesorderheader = df_salesltsalesorderheader.drop("OrderDate").withColumn("OrderDate", expr("date_add(current_date()-1000, CAST(rand() * 365 AS INT))"))
+#display(df_salesltsalesorderheader)
 
 # METADATA ********************
 
@@ -156,7 +167,8 @@ df_salesltproductcategory = spark.sql("SELECT ProductCategoryID, ParentProductCa
 
 # CELL ********************
 
-path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.Lakehouse/Tables" #to load for all 
+path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.Lakehouse/Tables" #to load for all
+
 
 # METADATA ********************
 
@@ -168,7 +180,8 @@ path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.L
 # CELL ********************
 
 tableName = "salesOrderHeader"
-df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path +"/"+ tableName)
+df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -179,8 +192,10 @@ df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overw
 
 # CELL ********************
 
-tableName="salesOrderDetail"
+
+tableName = "salesOrderDetail"
 df_salesltsalesorderdetail.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -191,8 +206,9 @@ df_salesltsalesorderdetail.write.mode("overwrite").format("delta").option("overw
 
 # CELL ********************
 
-tableName="salesCustomer"
-df_salesItcustomer.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+tableName = "salesCustomer"
+df_salesItcustomer.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -204,7 +220,8 @@ df_salesItcustomer.write.mode("overwrite").format("delta").option("overwritesche
 # CELL ********************
 
 tableName = "salesCustomerAddress"
-df_salesltcustomeraddress.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+df_salesltcustomeraddress.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -216,7 +233,8 @@ df_salesltcustomeraddress.write.mode("overwrite").format("delta").option("overwr
 # CELL ********************
 
 tableName = "salesProduct"
-df_salesltproduct.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+df_salesltproduct.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -227,8 +245,9 @@ df_salesltproduct.write.mode("overwrite").format("delta").option("overwriteschem
 
 # CELL ********************
 
-tableName="salesProductCategory"
-df_salesltproductcategory.write.mode("overwrite").format("delta").option("overwriteschema", "true").save(path+"/"+ tableName)
+tableName = "salesProductCategory"
+df_salesltproductcategory.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
