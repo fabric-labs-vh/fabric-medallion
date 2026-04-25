@@ -1,0 +1,143 @@
+table fabric_dimProduct
+	lineageTag: 6a8c945b-9888-4a1d-a56a-283d4e4dfe06
+	sourceLineageTag: [dbo].[fabric_dimProduct]
+
+	column ProductIDKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 75564d34-b873-4ffa-b964-e8167ef91bdd
+		sourceLineageTag: ProductIDKey
+		summarizeBy: none
+		sourceColumn: ProductIDKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9d8007e1-0746-44a6-af96-14c86438cf54
+		sourceLineageTag: ProductID
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f2e67f6d-e1cc-4028-a84d-6455ba4eb58a
+		sourceLineageTag: Name
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductNumber
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: dbd07cc0-ecc5-4822-803e-2170554e98b0
+		sourceLineageTag: ProductNumber
+		summarizeBy: none
+		sourceColumn: ProductNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 19f81f53-46b9-40db-8f35-0c1c3d8bcd70
+		sourceLineageTag: Color
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column StandardCost
+		dataType: double
+		sourceProviderType: float
+		lineageTag: cd8dea2f-7dac-4d22-b521-b11b2ffedf08
+		sourceLineageTag: StandardCost
+		summarizeBy: none
+		sourceColumn: StandardCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ListPrice
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 74104abb-1e8c-49fd-b6bc-47f5e0153499
+		sourceLineageTag: ListPrice
+		summarizeBy: none
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Size
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8f761751-9fc6-4fb7-a3dd-ae325630284f
+		sourceLineageTag: Size
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weight
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 0e1aaf38-1b3d-4ada-b811-6c699280522f
+		sourceLineageTag: Weight
+		summarizeBy: none
+		sourceColumn: Weight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductCategoryID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f8d7b499-b309-4a6c-823e-c711789e8a78
+		sourceLineageTag: ProductCategoryID
+		summarizeBy: none
+		sourceColumn: ProductCategoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentProductCategoryID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e0b1cd4c-9a84-494c-8dde-43a020e3b800
+		sourceLineageTag: ParentProductCategoryID
+		summarizeBy: none
+		sourceColumn: ParentProductCategoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a2250fbd-3455-4e0a-a60f-4bea8536be36
+		sourceLineageTag: ProductCategoryName
+		summarizeBy: none
+		sourceColumn: ProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fabric_dimProduct = entity
+		mode: directLake
+		source
+			entityName: fabric_dimProduct
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

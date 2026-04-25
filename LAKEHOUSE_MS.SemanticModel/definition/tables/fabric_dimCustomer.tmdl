@@ -1,0 +1,136 @@
+table fabric_dimCustomer
+	lineageTag: a5183768-3ccd-448a-b784-571714125df2
+	sourceLineageTag: [dbo].[fabric_dimCustomer]
+
+	column CustomerIDKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 4cc89b12-c9d4-4626-938b-832e75271fdf
+		sourceLineageTag: CustomerIDKey
+		summarizeBy: none
+		sourceColumn: CustomerIDKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 61c3bfc7-9824-45d3-a8cf-73de2733341f
+		sourceLineageTag: CustomerID
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 026359c7-dad8-41fd-afc3-38035ebdb838
+		sourceLineageTag: Title
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 05af507c-0ea1-4f49-8b1c-770d380e0981
+		sourceLineageTag: FirstName
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MiddleName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: fb5cdd57-e0f9-41a0-bcbe-40a28f17132a
+		sourceLineageTag: MiddleName
+		summarizeBy: none
+		sourceColumn: MiddleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 152d0a51-960b-431c-98a1-7a9af4343033
+		sourceLineageTag: LastName
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Suffix
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ed05b388-8aa4-4da1-95e5-3b7a7e90393d
+		sourceLineageTag: Suffix
+		summarizeBy: none
+		sourceColumn: Suffix
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompanyName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 272aa98e-c097-4df8-8f6d-78982cdd2b5b
+		sourceLineageTag: CompanyName
+		summarizeBy: none
+		sourceColumn: CompanyName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 91005964-2e45-4014-8676-ce4dd92cb9e5
+		sourceLineageTag: EmailAddress
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: eb11280a-ee1f-43c5-9943-67cf013636ac
+		sourceLineageTag: Phone
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 86f0b6c1-ce1c-45f2-8eb4-25962acf0daf
+		sourceLineageTag: AddressID
+		summarizeBy: none
+		sourceColumn: AddressID
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddressType
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 712e423f-a5a3-4696-90f2-9b5a67d27211
+		sourceLineageTag: AddressType
+		summarizeBy: none
+		sourceColumn: AddressType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fabric_dimCustomer = entity
+		mode: directLake
+		source
+			entityName: fabric_dimCustomer
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

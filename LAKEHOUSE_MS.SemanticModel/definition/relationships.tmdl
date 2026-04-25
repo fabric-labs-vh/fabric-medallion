@@ -1,0 +1,15 @@
+relationship f0cea0cd-9aea-94ff-88c7-cc1d9b0d402a
+	relyOnReferentialIntegrity
+	fromColumn: fabric_factSales.CustomerIDKey
+	toColumn: fabric_dimCustomer.CustomerIDKey
+
+relationship d9780f61-be92-6420-a1df-fcb451b6409c
+	relyOnReferentialIntegrity
+	fromColumn: fabric_factSales.ProductIDKey
+	toColumn: fabric_dimProduct.ProductIDKey
+
+relationship 3c5a272a-578a-3d18-9d45-6df5c14ba22c
+	relyOnReferentialIntegrity
+	fromColumn: fabric_factSales.OrderDate
+	toColumn: fabric_dimDate.Date
+
