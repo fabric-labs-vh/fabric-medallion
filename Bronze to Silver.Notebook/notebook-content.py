@@ -167,8 +167,9 @@ df_salesltproductcategory = spark.sql("SELECT ProductCategoryID, ParentProductCa
 
 # CELL ********************
 
-path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.Lakehouse/Tables" #to load for all
-
+tableName = "salesOrderHeader"
+df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
+spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
 
 # METADATA ********************
 
@@ -179,9 +180,8 @@ path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.L
 
 # CELL ********************
 
-tableName = "salesOrderHeader"
-df_salesltsalesorderheader.write.mode("overwrite").format("delta").option("overwriteSchema", "true").save(path + "/" + tableName)
-spark.sql(f"CREATE TABLE IF NOT EXISTS silver.dbo.{tableName} USING DELTA LOCATION '{path}/{tableName}'")
+path = "abfss://medallion_architecture@onelake.dfs.fabric.microsoft.com/silver.Lakehouse/Tables" #to load for all
+
 
 # METADATA ********************
 
