@@ -11,10 +11,11 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["DatabaseQuery"]
 
-annotation PBI_ProTooling = ["WebModelingEdit"]
+annotation PBI_ProTooling = ["WebModelingEdit","DaxQueryView_Desktop"]
 
 ref table fabric_dimDate
 ref table fabric_factSales
 ref table fabric_dimProduct
 ref table fabric_dimCustomer
+ref table Medidas
 

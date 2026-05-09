@@ -1,0 +1,37 @@
+table Medidas
+	lineageTag: 2e00dcb5-5401-43dc-ac89-105616cb8b03
+
+	measure TotalReceita = SUMX(fabric_factSales, fabric_factSales[UnitPrice] * fabric_factSales[OrderQty])
+		lineageTag: 97deb6f2-27b7-42a7-bf50-0d0a7985c151
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure unitsSold = Sum(fabric_factSales[OrderQty])
+		formatString: 0
+		lineageTag: 2e33b890-3042-4542-930b-f32f8eed2a8d
+
+	measure avgTicket = DIVIDE([TotalReceita], DISTINCTCOUNT(fabric_factSales[SalesOrderID]))
+		lineageTag: 13bd73e9-0424-4b82-a116-2f427f90be8a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure totalProducts = DISTINCTCOUNT(fabric_dimProduct[ProductID])
+		formatString: 0
+		lineageTag: 9cec4bfc-8411-44a2-9e51-7a77b38237e1
+
+	column Placeholder
+		lineageTag: afe050dc-c774-4d6e-8138-2f4d0fa1074d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = calculated
+		mode: import
+		source = DATATABLE("Placeholder", STRING, {{""}})
+
+	annotation PBI_Id = e0c10619c9404e7b8762f9aca0352abc
+

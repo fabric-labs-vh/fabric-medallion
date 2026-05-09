@@ -19,7 +19,7 @@ table fabric_dimProduct
 		sourceProviderType: int
 		lineageTag: 9d8007e1-0746-44a6-af96-14c86438cf54
 		sourceLineageTag: ProductID
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: ProductID
 
 		annotation SummarizationSetBy = Automatic
@@ -59,7 +59,7 @@ table fabric_dimProduct
 		sourceProviderType: float
 		lineageTag: cd8dea2f-7dac-4d22-b521-b11b2ffedf08
 		sourceLineageTag: StandardCost
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: StandardCost
 
 		annotation SummarizationSetBy = Automatic
@@ -71,7 +71,7 @@ table fabric_dimProduct
 		sourceProviderType: float
 		lineageTag: 74104abb-1e8c-49fd-b6bc-47f5e0153499
 		sourceLineageTag: ListPrice
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: ListPrice
 
 		annotation SummarizationSetBy = Automatic
@@ -93,7 +93,7 @@ table fabric_dimProduct
 		sourceProviderType: float
 		lineageTag: 0e1aaf38-1b3d-4ada-b811-6c699280522f
 		sourceLineageTag: Weight
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Weight
 
 		annotation SummarizationSetBy = Automatic
@@ -106,7 +106,7 @@ table fabric_dimProduct
 		sourceProviderType: int
 		lineageTag: f8d7b499-b309-4a6c-823e-c711789e8a78
 		sourceLineageTag: ProductCategoryID
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: ProductCategoryID
 
 		annotation SummarizationSetBy = Automatic
@@ -117,7 +117,7 @@ table fabric_dimProduct
 		sourceProviderType: int
 		lineageTag: e0b1cd4c-9a84-494c-8dde-43a020e3b800
 		sourceLineageTag: ParentProductCategoryID
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: ParentProductCategoryID
 
 		annotation SummarizationSetBy = Automatic
